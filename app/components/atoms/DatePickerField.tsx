@@ -1,4 +1,3 @@
-// DatePickerField.tsx
 import { DatePicker } from 'antd';
 import { Controller } from 'react-hook-form';
 
@@ -23,7 +22,7 @@ const DatePickerField: React.FC<DatePickerFieldProps> = ({ name, label, control,
           placeholder={placeholder || "Select a date"}
           format="DD/MM/YYYY"
           className='border-1 border-[#D0D5DD] h-[44px] w-full'
-          onChange={(date) => field.onChange(date)} // Ensures date change is handled properly
+          onChange={(date) => field.onChange(date)}
         />
       )}
     />

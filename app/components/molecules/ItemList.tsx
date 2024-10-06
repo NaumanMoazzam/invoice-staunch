@@ -69,7 +69,6 @@ const ItemList: React.FC = () => {
               placeholder="Total"
               type="number"
               disabled
-              // Show the dynamically calculated total value
               // value={watchedItems[index]?.total?.toFixed(2)}
             />
           </div>

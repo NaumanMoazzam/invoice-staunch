@@ -37,13 +37,12 @@ const InvoiceForm: React.FC = () => {
         clientPhone: "",
       },
       items: [{ name: "", price: 0, quantity: 1 }],
-      invoiceDate: new Date().toISOString().split('T')[0], // Default to current date
+      invoiceDate: new Date().toISOString().split('T')[0],
       paymentTerms: "Net 30 Days",
       projectDescription: "",
     },
   });
 
-  // Watching form data to pass for real-time preview
   const formData = useWatch({ control: methods.control });
 
   const [createInvoice] = useMutation(CREATE_INVOICE_MUTATION);
@@ -53,6 +52,8 @@ const InvoiceForm: React.FC = () => {
     const { items } = data;
     const { subTotal, tax, totalAmount } = calculateTotal(items);
 
+    console.log('items', items)
+
     try {
       await createInvoice({
         variables: {
@@ -60,7 +61,7 @@ const InvoiceForm: React.FC = () => {
         },
       });
       notification.success({ message: "Invoice created successfully!" });
-      reset(); // Reset the form after successful submission
+      reset();
     } catch (error) {
       console.error("Error creating invoice:", error);
       notification.error({ message: "Failed to create invoice." });

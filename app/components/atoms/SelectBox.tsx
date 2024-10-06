@@ -1,4 +1,3 @@
-// SelectField.tsx
 import { Select } from 'antd';
 import { Controller } from 'react-hook-form';
 
@@ -24,7 +23,7 @@ const SelectField: React.FC<SelectFieldProps> = ({ name, label, control, options
           placeholder={placeholder}
           options={options}
           className='border-1 border-[#D0D5DD] h-[44px]'
-          onChange={(value) => field.onChange(value)} // Ensures change handling
+          onChange={(value) => field.onChange(value)}
         />
       )}
     />
