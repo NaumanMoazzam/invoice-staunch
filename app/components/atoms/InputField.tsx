@@ -12,7 +12,7 @@ interface InputFieldProps {
 
 const InputField: React.FC<InputFieldProps> = ({ name, label, control, placeholder, type, disabled }) => (
   <div className='flex flex-col gap-1 pb-2'>
-    <label className='text-[#344054] text-[14px] font-medium'>{label}</label>
+    <label className='text-[#344054] text-[11px] lg:text-[14px] font-medium'>{label}</label>
     <Controller
       name={name}
       control={control}

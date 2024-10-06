@@ -124,14 +124,14 @@ const InvoiceForm: React.FC = () => {
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <section className="bg-secondary-100 p-10 container w-full">
-          <div className=" flex flex-row justify-between items-start">
+          <div className=" flex flex-row lg:justify-between items-start">
             <div className="flex flex-col">
-              <div className="font-bold text-[30px]">New Invoice</div>
-              <div className="text-[#667085] text-[16px] font-normal">
+              <div className="font-bold text-[20px] lg:text-[30px]">New Invoice</div>
+              <div className="text-[#667085] text-[12px] lg:text-[16px] font-normal">
                 Create new invoice for your customers
               </div>
             </div>
-            <div className="flex flex-row gap-4">
+            <div className="flex flex-row gap-1 lg:gap-4">
               <Button
                 type="primary"
                 htmlType="button"
@@ -146,13 +146,13 @@ const InvoiceForm: React.FC = () => {
             </div>
           </div>
         </section>
-        <div className="flex flex-row gap-4">
-          <div className="p-6 flex flex-col gap-8 w-[676px] border-2 rounded-[24px] border-[#D0D5DD]">
+        <div className="flex flex-col lg:flex-row gap-4">
+          <div className="p-6 flex flex-col gap-8 w-full lg:w-[676px] border-2 rounded-[24px] border-[#D0D5DD]">
             <BillingInfoFrom type="billingFromAttributes" />
             <BillingInfoTo type="billingToAttributes" />
             <ItemList />
           </div>
-          <div className="flex flex-col p-8 gap-6 bg-[#F5F5F5] w-[676px] rounded-[24px]">
+          <div className="flex flex-col p-8 gap-6 bg-[#F5F5F5] w-full lg:w-[676px] rounded-[24px]">
             <div className="font-semibold text-[24px] text-[#101828] ">
               Preview
             </div>
