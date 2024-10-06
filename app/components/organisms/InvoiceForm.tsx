@@ -17,18 +17,22 @@ const InvoiceForm: React.FC = () => {
       billingFrom: {
         companyName: "",
         companyEmail: "",
-        streetAddress: "",
-        city: "",
-        country: "",
-        postalCode: "",
+        billingFromAddress: {
+          streetAddress: "",
+          city: "",
+          country: "",
+          postalCode: "",
+        },
       },
       billingTo: {
         clientName: "",
         clientEmail: "",
-        streetAddress: "",
-        city: "",
-        country: "",
-        postalCode: "",
+        billingToAddress: {
+          streetAddress: "",
+          city: "",
+          country: "",
+          postalCode: "",
+        },
       },
       items: [{ name: "", price: 0, quantity: 1 }],
       invoiceDate: new Date().toISOString().split("T")[0],
@@ -47,7 +51,6 @@ const InvoiceForm: React.FC = () => {
   } = methods;
   console.log("Form errors:", errors);
 
-  
   const onSubmit = async (data: any) => {
     console.log("in submit->", data);
     const { items, invoiceDate, paymentTerms, projectDescription } = data;
@@ -61,10 +64,11 @@ const InvoiceForm: React.FC = () => {
               companyName: data.billingFrom.companyName,
               companyEmail: data.billingFrom.companyEmail,
               billingFromAddress: {
-                streetAddress: data.billingFrom.streetAddress,
-                city: data.billingFrom.city,
-                country: data.billingFrom.country,
-                postalCode: data.billingFrom.postalCode,
+                streetAddress:
+                  data.billingFrom.billingFromAddress.streetAddress,
+                city: data.billingFrom.billingFromAddress.city,
+                country: data.billingFrom.billingFromAddress.country,
+                postalCode: data.billingFrom.billingFromAddress.postalCode,
               },
             },
             billingTo: {
@@ -78,12 +82,14 @@ const InvoiceForm: React.FC = () => {
               },
               clientPhone: data.billingTo.clientPhone, // ensure clientPhone is included if required
             },
-            items: data.items.map((item: { name: any; price: any; quantity: any; total: any; }) => ({
-              name: item.name,
-              price: item.price,
-              quantity: item.quantity,
-              totalPrice: item.total, // ensure total is renamed to totalPrice
-            })),
+            items: data.items.map(
+              (item: { name: any; price: any; quantity: any; total: any }) => ({
+                name: item.name,
+                price: item.price,
+                quantity: item.quantity,
+                totalPrice: item.total, // ensure total is renamed to totalPrice
+              })
+            ),
             invoiceDate: invoiceDate,
             paymentTerms: paymentTerms,
             projectDescription: projectDescription,
