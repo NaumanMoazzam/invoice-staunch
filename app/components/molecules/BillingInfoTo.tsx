@@ -1,8 +1,10 @@
 "use client";
 import InputField from "../atoms/InputField";
 import { useFormContext } from "react-hook-form";
+import SelectField from "../atoms/SelectBox";
+import DatePickerField from "../atoms/DatePickerField";
 
-const BillingInfoTo: React.FC<{ type: "from" | "to" }> = ({ type }) => {
+const BillingInfoTo: React.FC<{ type: "billingFrom" | "billingTo" }> = ({ type }) => {
   const { control } = useFormContext();
 
   return (
@@ -23,12 +25,15 @@ const BillingInfoTo: React.FC<{ type: "from" | "to" }> = ({ type }) => {
         />
       </div>
       <div className="grid grid-cols-3 gap-4">
-        {/* TODO: SELECT BOX FOR COUNTRIES */}
-        <InputField
+        <SelectField
           name={`${type}.country`}
-          label="Email"
+          label="Country"
           control={control}
-          placeholder="Enter email"
+          options={[
+            { value: "USA", label: "United States" },
+            { value: "CAN", label: "Canada" },
+            { value: "UK", label: "United Kingdom" },
+          ]}
         />
         <InputField
           name={`${type}.city`}
@@ -43,28 +48,23 @@ const BillingInfoTo: React.FC<{ type: "from" | "to" }> = ({ type }) => {
           placeholder="Postal Code"
         />
       </div>
-      <div className="grid grid-cols-1 gap-4">
-        <InputField
-          name={`${type}.country`}
-          label="Street Address"
-          control={control}
-          placeholder="Street Address"
-        />
-      </div>
       <div className="grid grid-cols-2 gap-4">
-        {/* TODO: Add DATE (Calendar) */}
-        <InputField
-          name={`${type}.streetAddress`}
-          label="Street Address"
+        {/* Add date picker for invoice date */}
+        <DatePickerField
+          name={`${type}.invoiceDate`}
+          label="Invoice Date"
           control={control}
-          placeholder="Street Address"
         />
         {/* TODO: SELECT BOX FOR PAYMENT TERMS */}
-        <InputField
+        <SelectField
           name={`${type}.paymentTerms`}
           label="Payment Terms"
           control={control}
-          placeholder="Payment Terms"
+          options={[
+            { value: "Net 30 Days", label: "Net 30 Days" },
+            { value: "Net 60 Days", label: "Net 60 Days" },
+            { value: "Net 90 Days", label: "Net 90 Days" },
+          ]}
         />
       </div>
       <div className="grid grid-cols-1 gap-4">

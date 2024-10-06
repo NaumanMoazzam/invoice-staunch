@@ -1,9 +1,11 @@
 "use client";
 import InputField from "../atoms/InputField";
 import { useFormContext } from "react-hook-form";
+import SelectField from "../atoms/SelectBox";
 
-const BillingInfo: React.FC<{ type: "from" | "to" }> = ({ type }) => {
+const BillingInfoFrom: React.FC<{ type: "billingFrom" | "billingTo" }> = ({ type }) => {
   const { control } = useFormContext();
+  
 
   return (
     <div>
@@ -24,11 +26,15 @@ const BillingInfo: React.FC<{ type: "from" | "to" }> = ({ type }) => {
       </div>
       <div className="grid grid-cols-3 gap-4">
         {/* TODO: SELECT BOX */}
-        <InputField
+        <SelectField
           name={`${type}.country`}
-          label="Email"
+          label="Country"
           control={control}
-          placeholder="Enter email"
+          options={[
+            { value: "USA", label: "United States" },
+            { value: "CAN", label: "Canada" },
+            { value: "UK", label: "United Kingdom" },
+          ]}
         />
         <InputField
           name={`${type}.city`}
@@ -45,7 +51,7 @@ const BillingInfo: React.FC<{ type: "from" | "to" }> = ({ type }) => {
       </div>
       <div className="grid grid-cols-1 gap-4">
         <InputField
-          name={`${type}.country`}
+          name={`${type}.streetAddress`}
           label="Street Address"
           control={control}
           placeholder="Street Address"
@@ -55,4 +61,4 @@ const BillingInfo: React.FC<{ type: "from" | "to" }> = ({ type }) => {
   );
 };
 
-export default BillingInfo;
+export default BillingInfoFrom;

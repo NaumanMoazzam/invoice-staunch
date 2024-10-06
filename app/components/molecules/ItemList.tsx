@@ -1,13 +1,29 @@
 import { Button } from "antd";
-import { useFormContext, useFieldArray } from "react-hook-form";
+import { useFormContext, useFieldArray, useWatch } from "react-hook-form";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import InputField from "../atoms/InputField";
 
 const ItemList: React.FC = () => {
-  const { control } = useFormContext();
+  const { control, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "items", // key in the form's data structure
+    name: "items",
+  });
+
+  const watchedItems = useWatch({
+    control,
+    name: "items", 
+  });
+
+
+  watchedItems?.forEach((item: { quantity: any; price: any; total: number; }, index: any) => {
+    const quantity = parseFloat(item?.quantity || 0);
+    const price = parseFloat(item?.price || 0);
+    const total = quantity * price;
+
+    if (item?.total !== total) {
+      setValue(`items[${index}].total`, total);
+    }
   });
 
   return (
@@ -24,7 +40,6 @@ const ItemList: React.FC = () => {
               label="Item Name"
               control={control}
               placeholder="Item Name"
-              type="number"
             />
           </div>
           <div>
@@ -51,9 +66,11 @@ const ItemList: React.FC = () => {
               name={`items[${index}].total`}
               label="Total"
               control={control}
-              placeholder="total"
+              placeholder="Total"
               type="number"
               disabled
+              // Show the dynamically calculated total value
+              // value={watchedItems[index]?.total?.toFixed(2)}
             />
           </div>
           <div className="pt-8">
@@ -68,6 +85,7 @@ const ItemList: React.FC = () => {
             name: "",
             price: 0,
             quantity: 1,
+            total: 0,
           })
         }
         type="primary"

@@ -1,30 +1,34 @@
+// SelectField.tsx
 import { Select } from 'antd';
 import { Controller } from 'react-hook-form';
 
-interface SelectBoxProps {
+interface SelectFieldProps {
   name: string;
   label: string;
-  control: never;
-  options: { label: string; value: string }[];
+  control: any;
+  options: { value: string; label: string }[];
+  placeholder?: string;
+  disabled?: boolean;
 }
 
-const SelectBox: React.FC<SelectBoxProps> = ({ name, label, control, options }) => (
-  <div>
-    <label>{label}</label>
+const SelectField: React.FC<SelectFieldProps> = ({ name, label, control, options, placeholder, disabled }) => (
+  <div className='flex flex-col gap-1 pb-2'>
+    <label className='text-[#344054] text-[14px] font-medium'>{label}</label>
     <Controller
       name={name}
       control={control}
       render={({ field }) => (
-        <Select {...field} className='border-1 border-[#D0D5DD] h-[44px]'>
-          {options.map(option => (
-            <Select.Option key={option.value} value={option.value}>
-              {option.label}
-            </Select.Option>
-          ))}
-        </Select>
+        <Select
+          {...field}
+          disabled={disabled}
+          placeholder={placeholder}
+          options={options}
+          className='border-1 border-[#D0D5DD] h-[44px]'
+          onChange={(value) => field.onChange(value)} // Ensures change handling
+        />
       )}
     />
   </div>
 );
 
-export default SelectBox;
+export default SelectField;

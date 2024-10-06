@@ -1,24 +1,46 @@
-import { useForm, FormProvider } from "react-hook-form";
+import {
+  useForm,
+  FormProvider,
+  useWatch,
+  useFormContext,
+} from "react-hook-form";
 import { Button, notification } from "antd";
-import BillingInfo from "../molecules/BillingInfo";
 import ItemList from "../molecules/ItemList";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { invoiceSchema } from "../../utils/formSchema";
 import { calculateTotal } from "../../utils/helpers";
 import { useMutation } from "@apollo/client";
 import { CREATE_INVOICE_MUTATION } from "../../graphql/mutations";
-import RealTimePreview from "./RealTimePreview";
 import BillingInfoTo from "../molecules/BillingInfoTo";
+import BillingInfoFrom from "../molecules/BillingInfoFrom";
+import RealTimeInvoice from "./RealTimePreview";
 
 const InvoiceForm: React.FC = () => {
   const methods = useForm({
     resolver: yupResolver(invoiceSchema),
     defaultValues: {
-      billingFrom: { companyName: "", companyEmail: "" },
-      billingTo: { clientName: "", clientEmail: "" },
-      items: [{ name: "", price: 0, quantity: 0 }],
+      billingFrom: {
+        companyName: "",
+        companyEmail: "",
+        companyAddress: "",
+        companyPhone: 0,
+      },
+      billingTo: {
+        clientName: "",
+        clientEmail: "",
+        clientAddress: "",
+        clientPhone: 0,
+        // items: [{ name: "", price: 0, quantity: 1 }],
+        // invoiceDate: new Date().toISOString().split('T')[0], // Default to current date
+        paymentTerms: "Net 30 Days",
+        projectDescription: "",
+      },
     },
   });
+
+  const formData = useWatch({ control: methods.control })
+  // const items = useWatch({ control });
+  console.log("asdas=?", formData);
 
   const [createInvoice] = useMutation(CREATE_INVOICE_MUTATION);
   const { handleSubmit, reset } = methods;
@@ -34,26 +56,57 @@ const InvoiceForm: React.FC = () => {
         },
       });
       notification.success({ message: "Invoice created successfully!" });
-      reset(); // Reset the form after successful submission
+      reset();
     } catch (error) {
-      console.error(error);
+      console.error("Error creating invoice:", error);
+      notification.error({ message: "Failed to create invoice." });
     }
   };
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex flex-row">
+        <section className="bg-secondary-100 p-10 container w-full">
+          <div className=" flex flex-row justify-between items-start">
+            <div className="flex flex-col">
+              <div className="font-bold text-[30px]">New Invoice</div>
+              <div className="text-[#667085] text-[16px] font-normal">
+                Create new invoice for your customers
+              </div>
+            </div>
+            <div className="flex flex-row gap-4">
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="text-[#344054] bg-white border-1 border-[#D0D5DD]"
+                onClick={() => reset()}
+              >
+                Reset
+              </Button>
+              <Button type="primary" htmlType="submit">
+                Save
+              </Button>
+            </div>
+          </div>
+        </section>
+        <div className="flex flex-row gap-4">
           <div className="p-6 flex flex-col gap-8 w-[676px] border-2 rounded-[24px] border-[#D0D5DD]">
-            <BillingInfo type="from" />
-            <BillingInfoTo type="to" />
+            <BillingInfoFrom type="billingFrom" />
+            <BillingInfoTo type="billingTo" />
             <ItemList />
           </div>
-          <RealTimePreview />
-          <Button type="primary" htmlType="submit">
+          <div className="flex flex-col p-8 gap-6 bg-[#F5F5F5] w-[676px] rounded-[24px]">
+            <div className="font-semibold text-[24px] text-[#101828] ">
+              Preview
+            </div>
+            <RealTimeInvoice formData={formData} />
+          </div>
+        </div>
+        {/* <div className="mt-6">
+          <Button type="primary" htmlType="submit" className="w-full">
             Submit Invoice
           </Button>
-        </div>
+        </div> */}
       </form>
     </FormProvider>
   );

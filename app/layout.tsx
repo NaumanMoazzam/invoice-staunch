@@ -4,6 +4,8 @@ import "./globals.css";
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
 import { ConfigProvider } from "antd";
 import { Header } from "./components/molecules/Header";
+import 'react-datepicker/dist/react-datepicker.css';
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -43,8 +45,8 @@ function RootLayout({
               },
             }}
           >
-            <Header />
-            <div className="py-2 min-h-screen">{children}</div>
+            {/* <Header /> */}
+            <div className="py-2 min-h-screen" suppressHydrationWarning={true}>{children}</div>
           </ConfigProvider>
         </body>
       </html>
