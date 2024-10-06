@@ -27,7 +27,7 @@ const BillingInfoFrom: React.FC<{ type: "billingFrom" | "billingTo" }> = ({ type
       <div className="grid grid-cols-3 gap-4">
         {/* TODO: SELECT BOX */}
         <SelectField
-          name={`${type}.country`}
+          name={`${type}.billingFromAddress.country`}
           label="Country"
           control={control}
           options={[
@@ -37,13 +37,13 @@ const BillingInfoFrom: React.FC<{ type: "billingFrom" | "billingTo" }> = ({ type
           ]}
         />
         <InputField
-          name={`${type}.city`}
+          name={`${type}.billingFromAddress.city`}
           label="City"
           control={control}
           placeholder="City"
         />
         <InputField
-          name={`${type}.postalcode`}
+          name={`${type}.billingFromAddress.postalCode`}
           label="Postal Code"
           control={control}
           placeholder="Postal Code"
@@ -51,7 +51,7 @@ const BillingInfoFrom: React.FC<{ type: "billingFrom" | "billingTo" }> = ({ type
       </div>
       <div className="grid grid-cols-1 gap-4">
         <InputField
-          name={`${type}.streetAddress`}
+          name={`${type}.billingFromAddress.streetAddress`}
           label="Street Address"
           control={control}
           placeholder="Street Address"

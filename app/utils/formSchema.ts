@@ -21,7 +21,7 @@ export const invoiceSchema = yup.object().shape({
       streetAddress: yup.string().required('Street Address is required'),
     }),
   }),
-  invoiceDate: yup.date().required('Invoice Date is required'),
+  invoiceDate: yup.date(),
   paymentTerms: yup.string().required('Payment Terms are required'),
   projectDescription: yup.string().required('Project Description is required'),
   items: yup.array().of(
@@ -31,7 +31,7 @@ export const invoiceSchema = yup.object().shape({
       quantity: yup.number().positive('Quantity must be positive').required('Quantity is required'),
     })
   ),
-  subTotal: yup.number().required(),
-  tax: yup.number().required(),
-  totalAmount: yup.number().required(),
+  subTotal: yup.number(),
+  tax: yup.number(),
+  totalAmount: yup.number(),
 });

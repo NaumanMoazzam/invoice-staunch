@@ -1,8 +1,4 @@
-import {
-  useForm,
-  FormProvider,
-  useWatch,
-} from "react-hook-form";
+import { useForm, FormProvider, useWatch } from "react-hook-form";
 import { Button, notification } from "antd";
 import ItemList from "../molecules/ItemList";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -25,7 +21,6 @@ const InvoiceForm: React.FC = () => {
         city: "",
         country: "",
         postalCode: "",
-        companyPhone: "",
       },
       billingTo: {
         clientName: "",
@@ -34,10 +29,9 @@ const InvoiceForm: React.FC = () => {
         city: "",
         country: "",
         postalCode: "",
-        clientPhone: "",
       },
       items: [{ name: "", price: 0, quantity: 1 }],
-      invoiceDate: new Date().toISOString().split('T')[0],
+      invoiceDate: new Date().toISOString().split("T")[0],
       paymentTerms: "Net 30 Days",
       projectDescription: "",
     },
@@ -48,18 +42,58 @@ const InvoiceForm: React.FC = () => {
   const [createInvoice] = useMutation(CREATE_INVOICE_MUTATION);
   const { handleSubmit, reset } = methods;
 
-  const onSubmit = async (data: any) => {
-    const { items } = data;
-    const { subTotal, tax, totalAmount } = calculateTotal(items);
+  const {
+    formState: { errors },
+  } = methods;
+  console.log("Form errors:", errors);
 
-    console.log('items', items)
+  
+  const onSubmit = async (data: any) => {
+    console.log("in submit->", data);
+    const { items, invoiceDate, paymentTerms, projectDescription } = data;
+    const { subTotal, tax, totalAmount } = calculateTotal(items);
 
     try {
       await createInvoice({
         variables: {
-          input: { ...data, subTotal, tax, totalAmount },
+          input: {
+            billingFrom: {
+              companyName: data.billingFrom.companyName,
+              companyEmail: data.billingFrom.companyEmail,
+              billingFromAddress: {
+                streetAddress: data.billingFrom.streetAddress,
+                city: data.billingFrom.city,
+                country: data.billingFrom.country,
+                postalCode: data.billingFrom.postalCode,
+              },
+            },
+            billingTo: {
+              clientName: data.billingTo.clientName,
+              clientEmail: data.billingTo.clientEmail,
+              billingToAddress: {
+                streetAddress: data.billingTo.streetAddress,
+                city: data.billingTo.city,
+                country: data.billingTo.country,
+                postalCode: data.billingTo.postalCode,
+              },
+              clientPhone: data.billingTo.clientPhone, // ensure clientPhone is included if required
+            },
+            items: data.items.map((item: { name: any; price: any; quantity: any; total: any; }) => ({
+              name: item.name,
+              price: item.price,
+              quantity: item.quantity,
+              totalPrice: item.total, // ensure total is renamed to totalPrice
+            })),
+            invoiceDate: invoiceDate,
+            paymentTerms: paymentTerms,
+            projectDescription: projectDescription,
+            subTotal: subTotal, // ensure this is a number
+            tax: tax, // ensure this is a number
+            totalAmount: totalAmount, // ensure this is a number
+          },
         },
       });
+
       notification.success({ message: "Invoice created successfully!" });
       reset();
     } catch (error) {

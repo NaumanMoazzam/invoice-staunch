@@ -4,12 +4,16 @@ import { useFormContext } from "react-hook-form";
 import SelectField from "../atoms/SelectBox";
 import DatePickerField from "../atoms/DatePickerField";
 
-const BillingInfoTo: React.FC<{ type: "billingFrom" | "billingTo" }> = ({ type }) => {
+const BillingInfoTo: React.FC<{ type: "billingFrom" | "billingTo" }> = ({
+  type,
+}) => {
   const { control } = useFormContext();
 
   return (
     <div>
-      <div className="font-bold text-[24px] text-[#101828] pb-4">Billing To</div>
+      <div className="font-bold text-[24px] text-[#101828] pb-4">
+        Billing To
+      </div>
       <div className="grid grid-cols-2 gap-4">
         <InputField
           name={`${type}.clientName`}
@@ -26,7 +30,7 @@ const BillingInfoTo: React.FC<{ type: "billingFrom" | "billingTo" }> = ({ type }
       </div>
       <div className="grid grid-cols-3 gap-4">
         <SelectField
-          name={`${type}.country`}
+          name={`${type}.billingToAddress.country`}
           label="Country"
           control={control}
           options={[
@@ -36,16 +40,24 @@ const BillingInfoTo: React.FC<{ type: "billingFrom" | "billingTo" }> = ({ type }
           ]}
         />
         <InputField
-          name={`${type}.city`}
+          name={`${type}.billingToAddress.city`}
           label="City"
           control={control}
           placeholder="City"
         />
         <InputField
-          name={`${type}.postalcode`}
+          name={`${type}.billingToAddress.postalCode`}
           label="Postal Code"
           control={control}
           placeholder="Postal Code"
+        />
+      </div>
+      <div className="grid grid-cols-1 gap-4">
+        <InputField
+          name={`${type}.billingToAddress.streetAddress`}
+          label="Street Address"
+          control={control}
+          placeholder="Street Address"
         />
       </div>
       <div className="grid grid-cols-2 gap-4">
@@ -57,7 +69,7 @@ const BillingInfoTo: React.FC<{ type: "billingFrom" | "billingTo" }> = ({ type }
         />
         {/* TODO: SELECT BOX FOR PAYMENT TERMS */}
         <SelectField
-          name={`${type}.paymentTerms`}
+          name={`paymentTerms`}
           label="Payment Terms"
           control={control}
           options={[
@@ -69,7 +81,7 @@ const BillingInfoTo: React.FC<{ type: "billingFrom" | "billingTo" }> = ({ type }
       </div>
       <div className="grid grid-cols-1 gap-4">
         <InputField
-          name={`${type}.projectDescription`}
+          name={`projectDescription`}
           label="Project Description"
           control={control}
           placeholder="Project Description"

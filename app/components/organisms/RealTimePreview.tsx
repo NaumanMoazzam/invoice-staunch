@@ -1,5 +1,4 @@
 import React from "react";
-import { useForm, useFormContext, useWatch } from "react-hook-form";
 import { Divider, Table } from "antd";
 import dayjs from "dayjs";
 
@@ -11,45 +10,6 @@ interface Item {
 }
 
 const RealTimeInvoice: React.FC = ({ formData }: any) => {
-  const methods = useForm();
-
-  //   if (!control) {
-  //     console.error("Form context is not available");
-  //     return null;
-  //   }
-
-  // Watch for real-time updates in form values
-  //   const items: Item[] = useWatch({ control, name: "items", defaultValue: [] });
-  //   const billingFrom = useWatch({
-  //     control,
-  //     name: "billingFrom",
-  //     defaultValue: {
-  //       companyName: '',
-  //       companyEmail: '',
-  //       streetAddress: '',
-  //       city: '',
-  //       postalcode: '',
-  //       country: ''
-  //     },
-  //   });
-  //   const billingTo = useWatch({
-  //     control,
-  //     name: "billingTo",
-  //     defaultValue: {
-  //       clientName: '',
-  //       clientEmail: '',
-  //       streetAddress: '',
-  //       city: '',
-  //       postalcode: '',
-  //       country: '',
-  //       projectDescription: '',
-  //       paymentTerms: '',
-  //       invoiceDate: '',
-  //     },
-  //   });
-  //   const items:  Item[] = useWatch({ control: methods.control, name: "items", defaultValue: [] });
-  //   const billingTo = useWatch({ control: methods.control, name: "billingTo" });
-  //   const billingFrom = useWatch({ control: methods.control, name: "billingFrom" });
   console.log("formData", formData);
 
   const items = formData.items ? formData.items : [];
@@ -114,7 +74,7 @@ const RealTimeInvoice: React.FC = ({ formData }: any) => {
               Payment Terms
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {billingTo.paymentTerms || "N/A"}
+              {formData.paymentTerms || "N/A"}
             </div>
           </div>
         </div>
@@ -131,13 +91,13 @@ const RealTimeInvoice: React.FC = ({ formData }: any) => {
               {billingFrom.companyEmail || "N/A"}
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {billingFrom.streetAddress || "N/A"}
+              {billingFrom.billingFromAddress.streetAddress || "N/A"}
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {`${billingFrom.city}, ${billingFrom.postalcode}` || "N/A"}
+              {`${billingFrom.billingFromAddress.city}, ${billingFrom.billingFromAddress.postalCode}` || "N/A"}
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {billingFrom.country || "N/A"}
+              {billingFrom.billingFromAddress.country || "N/A"}
             </div>
           </div>
 
@@ -152,13 +112,13 @@ const RealTimeInvoice: React.FC = ({ formData }: any) => {
               {billingTo.clientEmail || "N/A"}
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {billingTo.streetAddress || "N/A"}
+              {billingTo.billingToAddress.streetAddress || "N/A"}
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {`${billingTo.city}, ${billingTo.postalcode}` || "N/A"}
+              {`${billingTo.billingToAddress.city}, ${billingTo.billingToAddress.postalCode}` || "N/A"}
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {billingTo.country || "N/A"}
+              {billingTo.billingToAddress.country || "N/A"}
             </div>
           </div>
         </div>
@@ -169,7 +129,7 @@ const RealTimeInvoice: React.FC = ({ formData }: any) => {
               Project Description
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {billingTo.projectDescription || "N/A"}
+              {formData.projectDescription || "N/A"}
             </div>
           </div>
         </div>
