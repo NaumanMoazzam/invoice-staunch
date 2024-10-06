@@ -2,7 +2,6 @@ import {
   useForm,
   FormProvider,
   useWatch,
-  useFormContext,
 } from "react-hook-form";
 import { Button, notification } from "antd";
 import ItemList from "../molecules/ItemList";
@@ -22,25 +21,30 @@ const InvoiceForm: React.FC = () => {
       billingFrom: {
         companyName: "",
         companyEmail: "",
-        companyAddress: "",
-        companyPhone: 0,
+        streetAddress: "",
+        city: "",
+        country: "",
+        postalCode: "",
+        companyPhone: "",
       },
       billingTo: {
         clientName: "",
         clientEmail: "",
-        clientAddress: "",
-        clientPhone: 0,
-        // items: [{ name: "", price: 0, quantity: 1 }],
-        // invoiceDate: new Date().toISOString().split('T')[0], // Default to current date
-        paymentTerms: "Net 30 Days",
-        projectDescription: "",
+        streetAddress: "",
+        city: "",
+        country: "",
+        postalCode: "",
+        clientPhone: "",
       },
+      items: [{ name: "", price: 0, quantity: 1 }],
+      invoiceDate: new Date().toISOString().split('T')[0], // Default to current date
+      paymentTerms: "Net 30 Days",
+      projectDescription: "",
     },
   });
 
-  const formData = useWatch({ control: methods.control })
-  // const items = useWatch({ control });
-  console.log("asdas=?", formData);
+  // Watching form data to pass for real-time preview
+  const formData = useWatch({ control: methods.control });
 
   const [createInvoice] = useMutation(CREATE_INVOICE_MUTATION);
   const { handleSubmit, reset } = methods;
@@ -56,7 +60,7 @@ const InvoiceForm: React.FC = () => {
         },
       });
       notification.success({ message: "Invoice created successfully!" });
-      reset();
+      reset(); // Reset the form after successful submission
     } catch (error) {
       console.error("Error creating invoice:", error);
       notification.error({ message: "Failed to create invoice." });
@@ -77,7 +81,7 @@ const InvoiceForm: React.FC = () => {
             <div className="flex flex-row gap-4">
               <Button
                 type="primary"
-                htmlType="submit"
+                htmlType="button"
                 className="text-[#344054] bg-white border-1 border-[#D0D5DD]"
                 onClick={() => reset()}
               >
@@ -102,11 +106,6 @@ const InvoiceForm: React.FC = () => {
             <RealTimeInvoice formData={formData} />
           </div>
         </div>
-        {/* <div className="mt-6">
-          <Button type="primary" htmlType="submit" className="w-full">
-            Submit Invoice
-          </Button>
-        </div> */}
       </form>
     </FormProvider>
   );
