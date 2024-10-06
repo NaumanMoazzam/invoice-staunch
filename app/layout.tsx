@@ -21,6 +21,12 @@ const geistMono = localFont({
 const client = new ApolloClient({
   uri: "https://sse-frontend-assessment-api-823449bb66ac.herokuapp.com/graphql",
   cache: new InMemoryCache(),
+  connectToDevTools: true,
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-and-network',
+    },
+  },
 });
 
 function RootLayout({

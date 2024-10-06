@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm, useFormContext, useWatch } from "react-hook-form";
 import { Divider, Table } from "antd";
+import dayjs from "dayjs";
 
 interface Item {
   name: string;
@@ -9,7 +10,7 @@ interface Item {
   total: number;
 }
 
-const RealTimeInvoice: React.FC = ({formData}: any) => {
+const RealTimeInvoice: React.FC = ({ formData }: any) => {
   const methods = useForm();
 
   //   if (!control) {
@@ -46,16 +47,14 @@ const RealTimeInvoice: React.FC = ({formData}: any) => {
   //       invoiceDate: '',
   //     },
   //   });
-//   const items:  Item[] = useWatch({ control: methods.control, name: "items", defaultValue: [] });
-//   const billingTo = useWatch({ control: methods.control, name: "billingTo" });
-//   const billingFrom = useWatch({ control: methods.control, name: "billingFrom" });
-console.log('formData', formData)
+  //   const items:  Item[] = useWatch({ control: methods.control, name: "items", defaultValue: [] });
+  //   const billingTo = useWatch({ control: methods.control, name: "billingTo" });
+  //   const billingFrom = useWatch({ control: methods.control, name: "billingFrom" });
+  console.log("formData", formData);
 
-const items = formData.items ? formData.items : []
-const billingTo = formData.billingTo
-const billingFrom = formData.billingFrom
-
-  
+  const items = formData.items ? formData.items : [];
+  const billingTo = formData.billingTo;
+  const billingFrom = formData.billingFrom;
 
   const columns = [
     {
@@ -90,6 +89,10 @@ const billingFrom = formData.billingFrom
 
   const totalPrice = subtotal + tax;
 
+  const formattedDate = formData.billingTo?.invoiceDate
+    ? dayjs(formData.billingTo.invoiceDate).format("DD/MM/YYYY")
+    : "";
+
   return (
     <div className="bg-white flex flex-col gap-2 p-4 rounded-[16px]">
       <div className="font-semibold text-[18px] text-[#101828]">
@@ -103,7 +106,7 @@ const billingFrom = formData.billingFrom
               Invoice Date
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {billingTo.invoiceDate || "N/A"}
+              {formattedDate}
             </div>
           </div>
           <div className="grid grid-rows-2">
