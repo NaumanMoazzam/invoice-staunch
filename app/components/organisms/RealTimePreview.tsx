@@ -12,9 +12,11 @@ interface Item {
 const RealTimeInvoice: React.FC = ({ formData }: any) => {
   console.log("formData", formData);
 
-  const items = formData.items ? formData.items : [];
-  const billingTo = formData.billingTo;
-  const billingFrom = formData.billingFrom;
+  const items = formData.itemAttributes ? formData.itemAttributes : [];
+  const billingTo = formData.billingToAttributes;
+  const billingFrom = formData.billingFromAttributes;
+
+
 
   const columns = [
     {
@@ -49,8 +51,8 @@ const RealTimeInvoice: React.FC = ({ formData }: any) => {
 
   const totalPrice = subtotal + tax;
 
-  const formattedDate = formData.billingTo?.invoiceDate
-    ? dayjs(formData.billingTo.invoiceDate).format("DD/MM/YYYY")
+  const formattedDate = formData.billingToAttributes?.invoiceDate
+    ? dayjs(formData.billingToAttributes.invoiceDate).format("DD/MM/YYYY")
     : "";
 
   return (
@@ -91,13 +93,13 @@ const RealTimeInvoice: React.FC = ({ formData }: any) => {
               {billingFrom.companyEmail || "N/A"}
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {billingFrom.billingFromAddress.streetAddress || "N/A"}
+              {billingFrom.billingFromAddressAttributes.streetAddress || "N/A"}
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {`${billingFrom.billingFromAddress.city}, ${billingFrom.billingFromAddress.postalCode}` || "N/A"}
+              {`${billingFrom.billingFromAddressAttributes.city}, ${billingFrom.billingFromAddressAttributes.postalCode}` || "N/A"}
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {billingFrom.billingFromAddress.country || "N/A"}
+              {billingFrom.billingFromAddressAttributes.country || "N/A"}
             </div>
           </div>
 
@@ -112,13 +114,13 @@ const RealTimeInvoice: React.FC = ({ formData }: any) => {
               {billingTo.clientEmail || "N/A"}
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {billingTo.billingToAddress.streetAddress || "N/A"}
+              {billingTo.billingToAddressAttributes.streetAddress || "N/A"}
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {`${billingTo.billingToAddress.city}, ${billingTo.billingToAddress.postalCode}` || "N/A"}
+              {`${billingTo.billingToAddressAttributes.city}, ${billingTo.billingToAddressAttributes.postalCode}` || "N/A"}
             </div>
             <div className="font-medium text-[16px] text-[#101828]">
-              {billingTo.billingToAddress.country || "N/A"}
+              {billingTo.billingToAddressAttributes.country || "N/A"}
             </div>
           </div>
         </div>

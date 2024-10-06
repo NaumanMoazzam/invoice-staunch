@@ -14,29 +14,29 @@ const InvoiceForm: React.FC = () => {
   const methods = useForm({
     resolver: yupResolver(invoiceSchema),
     defaultValues: {
-      billingFrom: {
+      billingFromAttributes: {
         companyName: "",
         companyEmail: "",
-        billingFromAddress: {
+        billingFromAddressAttributes: {
           streetAddress: "",
           city: "",
           country: "",
           postalCode: "",
         },
       },
-      billingTo: {
+      billingToAttributes: {
         clientName: "",
         clientEmail: "",
-        billingToAddress: {
+        billingToAddressAttributes: {
           streetAddress: "",
           city: "",
           country: "",
           postalCode: "",
         },
       },
-      items: [{ name: "", price: 0, quantity: 1 }],
+      itemAttributes: [{ name: "", price: 0, quantity: 1 }],
       invoiceDate: new Date().toISOString().split("T")[0],
-      paymentTerms: "Net 30 Days",
+      paymentTerms: "Net_30_Days",
       projectDescription: "",
     },
   });
@@ -53,49 +53,61 @@ const InvoiceForm: React.FC = () => {
 
   const onSubmit = async (data: any) => {
     console.log("in submit->", data);
-    const { items, invoiceDate, paymentTerms, projectDescription } = data;
-    const { subTotal, tax, totalAmount } = calculateTotal(items);
+    const { itemAttributes, invoiceDate, paymentTerms, projectDescription } =
+      data;
+    const { subTotal, tax, totalAmount } = calculateTotal(itemAttributes);
+
+    console.log("data.billingFrom.companyName", data);
 
     try {
       await createInvoice({
         variables: {
           input: {
-            billingFrom: {
-              companyName: data.billingFrom.companyName,
-              companyEmail: data.billingFrom.companyEmail,
-              billingFromAddress: {
-                streetAddress:
-                  data.billingFrom.billingFromAddress.streetAddress,
-                city: data.billingFrom.billingFromAddress.city,
-                country: data.billingFrom.billingFromAddress.country,
-                postalCode: data.billingFrom.billingFromAddress.postalCode,
+            createInvoiceAttributes: {
+              billingFromAttributes: {
+                companyName: data.billingFromAttributes.companyName,
+                companyEmail: data.billingFromAttributes.companyEmail,
+                billingFromAddressAttributes: {
+                  streetAddress:
+                    data.billingFromAttributes.billingFromAddressAttributes
+                      .streetAddress,
+                  city: data.billingFromAttributes.billingFromAddressAttributes
+                    .city,
+                  country:
+                    data.billingFromAttributes.billingFromAddressAttributes
+                      .country,
+                  postalCode:
+                    data.billingFromAttributes.billingFromAddressAttributes
+                      .postalCode,
+                },
               },
-            },
-            billingTo: {
-              clientName: data.billingTo.clientName,
-              clientEmail: data.billingTo.clientEmail,
-              billingToAddress: {
-                streetAddress: data.billingTo.streetAddress,
-                city: data.billingTo.city,
-                country: data.billingTo.country,
-                postalCode: data.billingTo.postalCode,
+              billingToAttributes: {
+                clientName: data.billingToAttributes.clientName,
+                clientEmail: data.billingToAttributes.clientEmail,
+                billingToAddressAttributes: {
+                  streetAddress:
+                    data.billingToAttributes.billingToAddressAttributes
+                      .streetAddress,
+                  city: data.billingToAttributes.billingToAddressAttributes
+                    .city,
+                  country:
+                    data.billingToAttributes.billingToAddressAttributes.country,
+                  postalCode:
+                    data.billingToAttributes.billingToAddressAttributes
+                      .postalCode,
+                },
               },
-              clientPhone: data.billingTo.clientPhone, // ensure clientPhone is included if required
+              itemAttributes: (data.items || []).map(
+                (item: { name: any; price: any; quantity: any }) => ({
+                  name: item.name,
+                  price: parseFloat(item.price),
+                  quantity: parseInt(item.quantity),
+                })
+              ),
+              invoiceDate: invoiceDate,
+              paymentTerms: paymentTerms,
+              projectDescription: projectDescription,
             },
-            items: data.items.map(
-              (item: { name: any; price: any; quantity: any; total: any }) => ({
-                name: item.name,
-                price: item.price,
-                quantity: item.quantity,
-                totalPrice: item.total, // ensure total is renamed to totalPrice
-              })
-            ),
-            invoiceDate: invoiceDate,
-            paymentTerms: paymentTerms,
-            projectDescription: projectDescription,
-            subTotal: subTotal, // ensure this is a number
-            tax: tax, // ensure this is a number
-            totalAmount: totalAmount, // ensure this is a number
           },
         },
       });
@@ -136,8 +148,8 @@ const InvoiceForm: React.FC = () => {
         </section>
         <div className="flex flex-row gap-4">
           <div className="p-6 flex flex-col gap-8 w-[676px] border-2 rounded-[24px] border-[#D0D5DD]">
-            <BillingInfoFrom type="billingFrom" />
-            <BillingInfoTo type="billingTo" />
+            <BillingInfoFrom type="billingFromAttributes" />
+            <BillingInfoTo type="billingToAttributes" />
             <ItemList />
           </div>
           <div className="flex flex-col p-8 gap-6 bg-[#F5F5F5] w-[676px] rounded-[24px]">

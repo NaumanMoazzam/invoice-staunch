@@ -7,12 +7,12 @@ const ItemList: React.FC = () => {
   const { control, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "items",
+    name: "itemAttributes",
   });
 
   const watchedItems = useWatch({
     control,
-    name: "items", 
+    name: "itemAttributes", 
   });
 
 
@@ -22,7 +22,7 @@ const ItemList: React.FC = () => {
     const total = quantity * price;
 
     if (item?.total !== total) {
-      setValue(`items[${index}].total`, total);
+      setValue(`itemAttributes[${index}].total`, total);
     }
   });
 
@@ -36,7 +36,7 @@ const ItemList: React.FC = () => {
         <div key={item.id} className="flex flex-row gap-4">
           <div className="w-full">
             <InputField
-              name={`items[${index}].name`}
+              name={`itemAttributes[${index}].name`}
               label="Item Name"
               control={control}
               placeholder="Item Name"
@@ -44,7 +44,7 @@ const ItemList: React.FC = () => {
           </div>
           <div>
             <InputField
-              name={`items[${index}].quantity`}
+              name={`itemAttributes[${index}].quantity`}
               label="Quantity"
               control={control}
               placeholder="Quantity"
@@ -54,7 +54,7 @@ const ItemList: React.FC = () => {
 
           <div>
             <InputField
-              name={`items[${index}].price`}
+              name={`itemAttributes[${index}].price`}
               label="Price"
               control={control}
               placeholder="Price"
@@ -63,7 +63,7 @@ const ItemList: React.FC = () => {
           </div>
           <div>
             <InputField
-              name={`items[${index}].total`}
+              name={`itemAttributes[${index}].total`}
               label="Total"
               control={control}
               placeholder="Total"

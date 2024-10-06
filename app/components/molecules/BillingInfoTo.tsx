@@ -4,7 +4,7 @@ import { useFormContext } from "react-hook-form";
 import SelectField from "../atoms/SelectBox";
 import DatePickerField from "../atoms/DatePickerField";
 
-const BillingInfoTo: React.FC<{ type: "billingFrom" | "billingTo" }> = ({
+const BillingInfoTo: React.FC<{ type: "billingFromAttributes" | "billingToAttributes" }> = ({
   type,
 }) => {
   const { control } = useFormContext();
@@ -30,7 +30,7 @@ const BillingInfoTo: React.FC<{ type: "billingFrom" | "billingTo" }> = ({
       </div>
       <div className="grid grid-cols-3 gap-4">
         <SelectField
-          name={`${type}.billingToAddress.country`}
+          name={`${type}.billingToAddressAttributes.country`}
           label="Country"
           control={control}
           options={[
@@ -40,13 +40,13 @@ const BillingInfoTo: React.FC<{ type: "billingFrom" | "billingTo" }> = ({
           ]}
         />
         <InputField
-          name={`${type}.billingToAddress.city`}
+          name={`${type}.billingToAddressAttributes.city`}
           label="City"
           control={control}
           placeholder="City"
         />
         <InputField
-          name={`${type}.billingToAddress.postalCode`}
+          name={`${type}.billingToAddressAttributes.postalCode`}
           label="Postal Code"
           control={control}
           placeholder="Postal Code"
@@ -54,7 +54,7 @@ const BillingInfoTo: React.FC<{ type: "billingFrom" | "billingTo" }> = ({
       </div>
       <div className="grid grid-cols-1 gap-4">
         <InputField
-          name={`${type}.billingToAddress.streetAddress`}
+          name={`${type}.billingToAddressAttributes.streetAddress`}
           label="Street Address"
           control={control}
           placeholder="Street Address"
@@ -73,9 +73,9 @@ const BillingInfoTo: React.FC<{ type: "billingFrom" | "billingTo" }> = ({
           label="Payment Terms"
           control={control}
           options={[
-            { value: "Net 30 Days", label: "Net 30 Days" },
-            { value: "Net 60 Days", label: "Net 60 Days" },
-            { value: "Net 90 Days", label: "Net 90 Days" },
+            { value: "NET_30_DAYS", label: "Net 30 Days" },
+            { value: "NET_20_DAYS", label: "Net 60 Days" },
+            { value: "NET_10_DAYS", label: "Net 90 Days" },
           ]}
         />
       </div>

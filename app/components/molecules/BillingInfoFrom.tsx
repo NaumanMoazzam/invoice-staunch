@@ -3,7 +3,7 @@ import InputField from "../atoms/InputField";
 import { useFormContext } from "react-hook-form";
 import SelectField from "../atoms/SelectBox";
 
-const BillingInfoFrom: React.FC<{ type: "billingFrom" | "billingTo" }> = ({ type }) => {
+const BillingInfoFrom: React.FC<{ type: "billingFromAttributes" | "billingToAttributes" }> = ({ type }) => {
   const { control } = useFormContext();
   
 
@@ -27,7 +27,7 @@ const BillingInfoFrom: React.FC<{ type: "billingFrom" | "billingTo" }> = ({ type
       <div className="grid grid-cols-3 gap-4">
         {/* TODO: SELECT BOX */}
         <SelectField
-          name={`${type}.billingFromAddress.country`}
+          name={`${type}.billingFromAddressAttributes.country`}
           label="Country"
           control={control}
           options={[
@@ -37,13 +37,13 @@ const BillingInfoFrom: React.FC<{ type: "billingFrom" | "billingTo" }> = ({ type
           ]}
         />
         <InputField
-          name={`${type}.billingFromAddress.city`}
+          name={`${type}.billingFromAddressAttributes.city`}
           label="City"
           control={control}
           placeholder="City"
         />
         <InputField
-          name={`${type}.billingFromAddress.postalCode`}
+          name={`${type}.billingFromAddressAttributes.postalCode`}
           label="Postal Code"
           control={control}
           placeholder="Postal Code"
@@ -51,7 +51,7 @@ const BillingInfoFrom: React.FC<{ type: "billingFrom" | "billingTo" }> = ({ type
       </div>
       <div className="grid grid-cols-1 gap-4">
         <InputField
-          name={`${type}.billingFromAddress.streetAddress`}
+          name={`${type}.billingFromAddressAttributes.streetAddress`}
           label="Street Address"
           control={control}
           placeholder="Street Address"
